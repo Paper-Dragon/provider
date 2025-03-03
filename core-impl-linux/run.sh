@@ -83,6 +83,11 @@ install_service() {
     echo "服务安装完成"
 }
 
+# 参数验证
+if [[ $# -eq 0 ]]; then
+    ./core --config config.json
+fi
+
 
 # 执行操作
 case "$1" in
@@ -99,8 +104,9 @@ case "$1" in
         systemctl status "${SERVICE_NAME}" --no-pager
         ;;
     *)
-        ./core --config config.json
-        ;;
+        echo "错误：无效参数 '$1'"
+        echo "可用参数：install | start | stop | status"
+        exit 1
 esac
 
 echo "操作执行成功"
